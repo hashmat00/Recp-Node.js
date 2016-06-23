@@ -1,0 +1,21 @@
+{
+  "name": "hashmat",
+  "version": "1.0.0",
+  "description": "creating my first app in node.js",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "npm",
+    "node.js",
+    "express",
+    "javascript"
+  ],
+  "author": "hashmat mh",
+  "license": "ISC",
+  "dependencies": {
+    "cat-me": "^1.0.3",
+    "express": "^4.14.0"
+  }
+}
