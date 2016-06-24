@@ -1,0 +1,30 @@
+<% include partials/header %>
+
+
+<h1>View all my Posts</h1>
+
+
+<% for(var i=0; i<posts.length; i++){ %>
+
+<li>
+    <%= posts[i].title %> - <%= posts[i].author %>
+</li>
+<% } %>
+
+
+<p>==============================</p>
+
+<% posts.forEach(function(x){ %>
+    <li>
+    <%= x.title %> - <%= x.author %>
+</li>
+    
+<% }) %>
+
+
+<img src="http://www.w3schools.com/css/trolltunga.jpg"></img>
+
+
+
+
+<% include partials/footer %>

@@ -1,1 +1,18 @@
+<% include partials/header %>
+
+
+
 <h1>You fall in love with: <span><%= messages.toUpperCase() %></span></h1>
+
+
+<% if(messages.toUpperCase() === "HASHMAT") { %>
+    <p>Nice guess, well done!</p>
+    
+<% }else{ %>
+    <p>Well, you need to guess again!</p>    
+
+<% } %>
+
+
+
+<% include partials/footer %>
