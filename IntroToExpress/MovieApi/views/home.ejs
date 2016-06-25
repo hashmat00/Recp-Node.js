@@ -1,0 +1,61 @@
+<% include partials/header %>
+
+
+
+          <!--<form action="/result" method="GET">-->
+          <!--      <input type="text" placeholder="search movie" name="search" required>-->
+          <!--      <button>Search</button>-->
+          <!--    </form>-->
+
+
+
+    <div class="container">
+        <div class="jumbotron">
+            <h2 align="center">Search Movies</h2>
+    <div class="row">    
+        <div class="col-xs-8 col-xs-offset-2">
+		    <div class="input-group">
+                <div class="input-group-btn search-panel">
+                    <form action="/result" method="GET">
+                    <!--<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">-->
+                    	<span id="search_concept">Search Movie</span> <span class="bulb"></span>
+                    <!--</button>-->
+                    
+                </div>
+                <!--<input type="hidden" name="search_param" value="all" id="search_param">         -->
+                
+                <input type="text" class="form-control" name="search" placeholder="Search Movies..." required>
+                <span class="input-group-btn">
+                    <button class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+                    <!--<button class="btn btn-default" type="button">Search<span class="glyphicon glyphicon-search"></span></button>-->
+                </span>
+                
+                </form>
+            </div>
+        </div>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	<% include partials/footer %>
+      
+        
+        
+
+
+
+
+
+

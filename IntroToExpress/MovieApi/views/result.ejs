@@ -1,6 +1,55 @@
-<h1>Movie Lists from API</h1>
+<% include partials/header %>
 
 
-<% data['Search'].forEach(function(movie) { %>
-    <li><%= movie['Title'] %></li>
-<% }); %>
+<h2 align="center">Movie Lists from API</h2>
+<hr/>
+
+<div class="container">
+        <div class="row">    
+        <div class="col-xs-8 col-xs-offset-2">
+                 <% data['Search'].forEach(function(movie) { %>
+                    <div class="row">
+                      <div class="col-sm-6 col-md-4">
+                         
+                    
+                            <div class="thumbnail">
+                              <img src="<%= movie['Poster'] %>" alt="..." >
+                              <div class="caption">
+                                <h3><%= movie['Title'] %></h3>
+                                <p><%= movie['Type'] %></p>
+                                <p><a href="#" class="btn btn-primary" role="button">Year</a> <a href="#" class="btn btn-default" role="button"><%= movie['Year'] %></a></p>
+                              </div>
+                            </div>
+                           
+                      </div>
+                    </div>
+                    
+                    <% }); %>
+                    </div>
+                    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<!--<% data['Search'].forEach(function(movie) { %>-->
+<!--    <li>Title:  <%= movie['Title'] %></li>-->
+<!--    <li> Year: <%= movie['Year'] %></li>-->
+<!--    <li>Type:  <%= movie['Type'] %></li>-->
+<!--    <li>Image:  <img src="<%= movie['Poster'] %>"></li>-->
+
+<!--    <hr/>-->
+<!--<% }); %>-->
+
+
+
+
+
+<% include partials/footer %>

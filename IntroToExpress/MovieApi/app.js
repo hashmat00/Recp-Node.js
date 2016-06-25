@@ -5,14 +5,21 @@ var request = require('request');
 app.set('view engine', 'ejs');
 
 
+app.get('/', function(req, res) {
+    res.render('home');
+});
+
+
 app.get('/result', function(req, res){
-   
-  request('http://omdbapi.com/?s=afghanistan', function(error, response, body){
-      if(!error && response.statusCode == 200){
-          var data = JSON.parse(body);
-          res.render('result', {data: data});
-      }
-  });
+    var search = req.query.search;
+    var url =  'http://omdbapi.com/?s=' + search;
+    request(url, function(error, response, body){
+        if(!error && response.statusCode == 200){
+            var data = JSON.parse(body);
+            res.render('result', {data: data});
+        }
+    });
+    
 });
 
 
