@@ -1,32 +1,73 @@
 <% include partials/header %>
 
 
-<h2 align="center">Movie Lists from API</h2>
+ <div class="container">
+        
+            <h2 align="center">Search Movies</h2>
+    <div class="row">    
+        <div class="col-xs-8 col-xs-offset-2">
+		    <div class="input-group">
+                <div class="input-group-btn search-panel">
+                    <form action="/result" method="GET">
+                    <!--<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">-->
+                    	<span id="search_concept">Search Movie</span> <span class="bulb"></span>
+                    <!--</button>-->
+                    
+                </div>
+                <!--<input type="hidden" name="search_param" value="all" id="search_param">         -->
+                
+                <input type="text" class="form-control" name="search" placeholder="Search Movies..." required>
+                <span class="input-group-btn">
+                    <button class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+                    <!--<button class="btn btn-default" type="button">Search<span class="glyphicon glyphicon-search"></span></button>-->
+                </span>
+                
+                </form>
+            </div>
+        </div>
+
+</div>
+
+
+
+
+
+
+
+<!--<h2 align="center">Movie Lists from API</h2>-->
 <hr/>
 
 <div class="container">
-        <div class="row">    
-        <div class="col-xs-8 col-xs-offset-2">
-                 <% data['Search'].forEach(function(movie) { %>
+  
+  
+  
+ 
+        <!--<div class="row">    -->
+        <!--<div class="col-xs-8">-->
+                 
                     <div class="row">
+                       <% data['Search'].forEach(function(movie) { %>
+                      <!--<div class="col-sm-6 col-md-4">-->
                       <div class="col-sm-6 col-md-4">
                          
                     
                             <div class="thumbnail">
                               <img src="<%= movie['Poster'] %>" alt="..." >
                               <div class="caption">
-                                <h3><%= movie['Title'] %></h3>
-                                <p><%= movie['Type'] %></p>
-                                <p><a href="#" class="btn btn-primary" role="button">Year</a> <a href="#" class="btn btn-default" role="button"><%= movie['Year'] %></a></p>
+                                <h3 align="center"><%= movie['Title'] %></h3>
+                                <p align="center"><%= movie['Type'] %></p>
+                                <p align="center"><a href="#" class="btn btn-primary" role="button">Year</a> <a href="#" class="btn btn-default" role="button"><%= movie['Year'] %></a></p>
                               </div>
                             </div>
                            
                       </div>
+                      <% }); %>
                     </div>
                     
-                    <% }); %>
-                    </div>
-                    </div>
+                   
+                    <!--</div>-->
+                    <!--</div>-->
+       
 </div>
 
 

@@ -1,7 +1,21 @@
 var express = require("express");
 var app = express();
+var bodyParser = require("body-parser");
 
+app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
+
+
+   var camp = [
+    {name: "kabul", image: "http://www.bryceresort.com/bryceresort/files/3d/3d4e41d1-c0da-4769-9d9c-333f535f164a.png"},
+    {name: "kabul", image: "http://www.bryceresort.com/bryceresort/files/3d/3d4e41d1-c0da-4769-9d9c-333f535f164a.png"},
+    {name: "kabul", image: "http://www.bryceresort.com/bryceresort/files/3d/3d4e41d1-c0da-4769-9d9c-333f535f164a.png"},
+    {name: "kabul", image: "http://www.southwoods.com/sites/default/files/each%20summer%20special%204.JPG"},
+  
+    ];
+
+
+
 
 
 app.get('/', function(req, res) {
@@ -10,24 +24,32 @@ app.get('/', function(req, res) {
 
 
 app.get('/camp', function(req, res) {
-    
-    var camp = [
-    {name: "kabul", image: "http://www.eatstaylive.com/wp-content/uploads/2015/11/3025546-poster-p-switzerland.jpg"},
-    {name: "Herat", image: "http://hookedoneverything.com/wp-content/uploads/2015/05/Switzerland-Ski-Resort-Arosa.jpg"},
-    {name: "Badakhshan", image: "https://5starseurope.com/country_image/switzerland/switzerland-001.jpg"},
-    {name: "kabul", image: "http://trulyhandpicked.com/wp-content/uploads/2016/02/switzerland-castle-autumn-tree-beauty-hill-widescreen-landscape-switzerland-autumn-wallpaper-1455201749n48gk.jpg"},
-    {name: "Herat", image: "http://www.enp.eu/wp-content/uploads/Zurich2.png"},
-    {name: "kabul", image: "http://www.eatstaylive.com/wp-content/uploads/2015/11/3025546-poster-p-switzerland.jpg"},
-    {name: "Herat", image: "http://hookedoneverything.com/wp-content/uploads/2015/05/Switzerland-Ski-Resort-Arosa.jpg"},
-    {name: "Badakhshan", image: "https://5starseurope.com/country_image/switzerland/switzerland-001.jpg"},
-    {name: "kabul", image: "http://trulyhandpicked.com/wp-content/uploads/2016/02/switzerland-castle-autumn-tree-beauty-hill-widescreen-landscape-switzerland-autumn-wallpaper-1455201749n48gk.jpg"},
-    {name: "Herat", image: "http://www.enp.eu/wp-content/uploads/Zurich2.png"}
-
-    ];
-
-
     res.render('camp', {camp: camp});
 });
+
+
+
+
+app.post('/camp', function(req, res){
+   var name = req.body.name;
+    var image = req.body.image;
+    var NewCamp = {name: name, image: image};
+    
+    camp.push(NewCamp);
+    res.redirect('/camp');
+    
+})
+
+
+
+app.get('/camp/new', function(req, res) {
+    res.render('new.ejs');
+});
+
+
+
+
+
 
 
 
