@@ -12,14 +12,18 @@ app.set('view engine', 'ejs');
 
 var campSchema = new mongoose.Schema({
     name: String,
-    image: String
+    image: String,
+    description: String
 });
 
 var Camp = mongoose.model("camp", campSchema);
 
 
+                    //============== CREATE NEW CAMP ======
 // Camp.create({
-//     name: "kabul", image: "http://www.southwoods.com/sites/default/files/each%20summer%20special%204.JPG"
+//     name: "kabul",
+//     image: "http://www.southwoods.com/sites/default/files/each%20summer%20special%204.JPG",
+//     description: "This is the new camp item description on view page"
     
 // }, function(err, camp){
 //     if(err){
@@ -47,7 +51,7 @@ var Camp = mongoose.model("camp", campSchema);
 
 
 app.get('/', function(req, res) {
-    res.render('home');
+    res.render('landing');
 });
 
 
@@ -61,7 +65,7 @@ app.get('/camp', function(req, res) {
                 console.log(err);
             }else{
                 
-                res.render("camp", {camp: allCamps});
+                res.render("index", {camp: allCamps});
             }
         });
         
@@ -74,7 +78,8 @@ app.get('/camp', function(req, res) {
 app.post('/camp', function(req, res){
    var name = req.body.name;
     var image = req.body.image;
-    var NewCamp = {name: name, image: image};
+    var description = req.body.description;
+    var NewCamp = {name: name, image: image, description: description};
     
     //create new camp
     Camp.create(NewCamp, function(err, Createcamp){
@@ -94,7 +99,17 @@ app.get('/camp/new', function(req, res) {
 });
 
 
-
+app.get('/camp/:id', function(req, res) {
+    // res.send("This is the View page of camp");
+    
+    Camp.findById(req.params.id, function(err, foundCamp){
+        if(err){
+            console.log(err);
+        }else{
+            res.render('show', {camp: foundCamp});
+        }
+    });
+});
 
 
 
