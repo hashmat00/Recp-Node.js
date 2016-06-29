@@ -3,12 +3,15 @@ var methodOverride = require("method-override");
 var app = express();
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
+var expressSanitizer = require("express-sanitizer");
 mongoose.connect("mongodb://localhost/restful_routing");
+
 
 
 //APP CONFIG
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(expressSanitizer());
 app.set('view engine', 'ejs');
 app.use(methodOverride("_method"));
 
@@ -94,7 +97,8 @@ app.get("/blogs/:id", function(req, res){
 
 
 
-
+// EDIT ROUTE
+//============================
 app.get("/blogs/:id/edit", function(req, res){
     Blog.findById(req.params.id, function(err, foundBlog){
         if(err){
@@ -106,9 +110,13 @@ app.get("/blogs/:id/edit", function(req, res){
     
 });
 
-
+//UPDATE ROUTES
+//============================
 app.put('/blogs/:id', function(req, res){
-    
+    //SANITIZE THE content description to avoid any script run
+    console.log(req.body);
+    req.body.blog.body = req.sanitize(req.body.blog.body);
+    console.log(req.body);
   Blog.findByIdAndUpdate(req.params.id, req.body.blog, function(err, updateBlog){
         if(err){
           res.redirect("/blogs");
@@ -119,7 +127,8 @@ app.put('/blogs/:id', function(req, res){
 });
 
 
-
+//DELETE ROUTES
+//============================
 
 app.delete('/blogs/:id', function(req, res){
    //find blog and delete it
