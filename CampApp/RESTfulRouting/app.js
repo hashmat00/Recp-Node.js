@@ -1,4 +1,5 @@
 var express = require("express");
+var methodOverride = require("method-override");
 var app = express();
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
@@ -9,13 +10,16 @@ mongoose.connect("mongodb://localhost/restful_routing");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
+app.use(methodOverride("_method"));
+
+
 
 //Mongoose/Model CONFIG
 var blogSchema = new mongoose.Schema({
-    name: String,
+    title: String,
     image: String,
     body: String,
-    date: {type: Date, default: Date.now}
+    created:  {type: Date, default: Date.now}
 });
 
 var Blog = mongoose.model("Blog", blogSchema);
@@ -49,7 +53,8 @@ app.get('/blogs', function(req, res){
 });
 
 
-
+//CREATE NEW BLOG
+//============================
 app.get('/blogs/new', function(req, res) {
    res.render('new'); 
 });
@@ -72,6 +77,60 @@ app.post('/blogs', function(req, res) {
 
 
 
+
+
+//SHOW PAGE ROUTE
+//============================
+app.get("/blogs/:id", function(req, res){
+   Blog.findById(req.params.id, function(err, blog){
+      if(err){
+          res.redirect("/");
+      } else {
+          res.render("show", {blog: blog});
+      }
+   });
+});
+
+
+
+
+
+app.get("/blogs/:id/edit", function(req, res){
+    Blog.findById(req.params.id, function(err, foundBlog){
+        if(err){
+          res.redirect("/blogs");
+      } else {
+          res.render("edit", {blog: foundBlog});
+      } 
+    });
+    
+});
+
+
+app.put('/blogs/:id', function(req, res){
+    
+  Blog.findByIdAndUpdate(req.params.id, req.body.blog, function(err, updateBlog){
+        if(err){
+          res.redirect("/blogs");
+      } else {
+          res.redirect("/blogs/" + req.params._id);
+      } 
+  });
+});
+
+
+
+
+app.delete('/blogs/:id', function(req, res){
+   //find blog and delete it
+   Blog.findByIdAndRemove(req.params.id, function(err, removeBlog){
+        if(err){
+          res.redirect("/blogs");
+      } else {
+          res.redirect("/blogs");
+      } 
+  });
+});
 
 
 //===========================
