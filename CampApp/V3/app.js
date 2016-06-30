@@ -2,16 +2,18 @@ var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/camp_app");
+mongoose.connect("mongodb://localhost/camp_v3");
 
 // import camp schema from models
 var Camp = require("./models/camp")
+var seedDB = require("./seeds");
 
 
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
-
+//call seedDB function to remove all camps
+seedDB();
 
 
 
@@ -100,7 +102,7 @@ app.get('/camp/new', function(req, res) {
 app.get('/camp/:id', function(req, res) {
     // res.send("This is the View page of camp");
     
-    Camp.findById(req.params.id, function(err, foundCamp){
+    Camp.findById(req.params.id).populate("comments").exec(function(err, foundCamp){
         if(err){
             console.log(err);
         }else{
