@@ -1,48 +1,35 @@
 var mongoose = require("mongoose");
-
 mongoose.connect("mongodb://localhost/reference-demo");
 
-//====================================================
-//POST - title, content
-var postSchema = new mongoose.Schema({
-    title: String,
-    content: String
-});
 
-var Post = mongoose.model("Post", postSchema);
+//used module.exports on the post and user file on model folder serparately
+var Post = require("./models/post");
+var User = require("./models/user")
 
 
 
 
 
-//====================================================
-//USER - email, name
-var userSchema = new mongoose.Schema({
-    email: String,
-    name: String,
-    posts: [
-        {
-         type: mongoose.Schema.Types.ObjectId,
-         ref: "Post"
-        }
-        ]
-});
-
-
-var User = mongoose.model("User", userSchema);
 
 
 //====================================================
 //  CREATE USER
+//====================================================
+
 // User.create({
 //     email: "johnnn@gmail.com",
 //     name: "george"
 // });
 
 
+
+//====================================================
+//  CREATE posts and associate post with specified user
+//====================================================
+
 // Post.create({
-//     title: "Murgh paalow",
-//     content: "making palow is best deal maasalalalalal..."
+//     title: "Chicken kabob",
+//     content: "i love barbeque always, i like chopan kabob...."
 // }, function(err, post){
 //     User.findOne({name: "george"}, function(err, foundUser){
 //         if(err){
@@ -62,10 +49,11 @@ var User = mongoose.model("User", userSchema);
 
 
 
+
+//====================================================
 //FIND USER
-
-
 //FIND ALL POST FOR THAT USER
+//====================================================
 
 User.findOne({name: "george"}).populate("posts").exec(function(err, user){
     if(err){
@@ -74,3 +62,7 @@ User.findOne({name: "george"}).populate("posts").exec(function(err, user){
         console.log(user);
     }
 })
+
+
+
+//====================================================
