@@ -1,0 +1,28 @@
+<% include partials/header %>
+
+
+
+    <div class="contianer">
+        <div class="col-md-8 pull-right">
+                <h1><%= camp.name %></h1>
+                <div class="thumbnail">
+                <img src="<%= camp.image %>"></img>
+                <h3><%= camp.description %></h3>
+                <p>
+                <a class="btn btn-success" href="/camp/<%= camp._id %>/comments/new">Add New Comment</a>
+            </p>
+                
+                 <% camp.comments.forEach(function(comment){ %>
+                   <p>
+                    <strong><%= comment.author %></strong> - <%= comment.text %>
+                        </p>
+                   <%  }); %>
+                   
+                   
+                   
+                 </div>
+        </div>
+        
+    </div>
+
+    
