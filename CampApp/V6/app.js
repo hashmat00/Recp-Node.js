@@ -43,6 +43,12 @@ passport.deserializeUser(User.deserializeUser());
 
 
 
+//restrict user to login
+app.use(function(req, res, next){
+    res.locals.currentUser = req.user;
+    next();
+})
+
 
 
                     //============== CREATE NEW CAMP ======
@@ -120,7 +126,7 @@ app.post('/camp', function(req, res){
 
 
 
-app.get('/camp/new', function(req, res) {
+app.get('/camp/new', isLoggedIn, function(req, res) {
     res.render('new.ejs');
 });
 
@@ -142,7 +148,7 @@ app.get('/camp/:id', function(req, res) {
 
 
 
-app.get('/camp/:id/comments/new', function(req, res) {
+app.get('/camp/:id/comments/new', isLoggedIn,  function(req, res) {
     Camp.findById(req.params.id, function(err, camp){
         if(err){
             console.log(err);
@@ -154,7 +160,7 @@ app.get('/camp/:id/comments/new', function(req, res) {
 
 
 
-app.post('/camp/:id/comments', function(req, res){
+app.post('/camp/:id/comments',  function(req, res){
     Camp.findById(req.params.id, function(err, camp) {
         if(err){
             console.log(err);
@@ -210,7 +216,24 @@ app.post('/login', passport.authenticate('local', {
     
 });
 
+//Logout Routes
+app.get('/logout', function(req, res) {
+    req.logout();
+    res.redirect('/login');
+});
 
+
+
+
+
+// isLoggedIn
+function isLoggedIn(req, res, next){
+   if(req.isAuthenticated()){
+       return next();
+   }
+   
+   res.redirect('/login');
+}
 
 
 app.listen(process.env.PORT, process.env.IP, function(req, res){
