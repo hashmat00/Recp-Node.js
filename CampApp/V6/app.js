@@ -1,8 +1,13 @@
-var express = require("express");
-var app = express();
-var bodyParser = require("body-parser");
-var mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/camp_v4");
+var express              = require("express"),
+     app                 = express(),
+     bodyParser          = require("body-parser"),
+      mongoose            = require("mongoose"),
+      passport          = require("passport"),
+      LocalStrategy     = require("passport-local"),
+      passportLocalMongoose =   require("passport-local-mongoose"),
+      User                  = require("./models/user")
+
+mongoose.connect("mongodb://localhost/camp_v6");
 
 // import camp schema from models
 var Camp = require("./models/camp")
@@ -18,6 +23,23 @@ app.use(express.static(__dirname + "/public"));
 
 //call seedDB function to remove all camps
 seedDB();
+
+
+
+//PASSPORT CONFIG ///
+app.use(require("express-session")({
+    secret: "Rusty is the best and cutest dog in the world",
+    resave: false,
+    saveUninitialized: false
+}));
+
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 
 
@@ -150,6 +172,27 @@ app.post('/camp/:id/comments', function(req, res){
         }
     });
 });
+
+
+
+
+app.get('/register', function(req, res) {
+   res.render('register'); 
+});
+
+
+app.post('/register', function(req, res){
+    User.register(new User({username: req.body.username}), req.body.password, function(err, user){
+        if(err){
+            console.log(err);
+            return res.render('register');
+        }
+        passport.authenticate('local')(req, res, function(){
+            res.redirect('/camp');
+        });
+    });
+});
+
 
 
 
