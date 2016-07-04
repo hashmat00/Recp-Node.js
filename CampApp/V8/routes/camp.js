@@ -32,7 +32,11 @@ router.post('/', function(req, res){
    var name = req.body.name;
     var image = req.body.image;
     var description = req.body.description;
-    var NewCamp = {name: name, image: image, description: description};
+    var author = {
+        id: req.user._id,
+        username: req.user.username
+    }
+    var NewCamp = {name: name, image: image, description: description, author: author};
     
     //create new camp
     Camp.create(NewCamp, function(err, Createcamp){
@@ -40,6 +44,7 @@ router.post('/', function(req, res){
             console.log(err);
         }else{
             //redirect to camp listing page after successfully adding a camp
+         
             res.redirect('/camp');
         }
     });
