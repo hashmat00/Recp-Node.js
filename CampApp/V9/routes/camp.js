@@ -18,7 +18,7 @@ router.get('/', function(req, res) {
                 console.log(err);
             }else{
                 
-                res.render("index", {camp: allCamps});
+                res.render("camp/index", {camp: allCamps});
             }
         });
         
@@ -53,7 +53,7 @@ router.post('/', function(req, res){
 
 
 router.get('/new', isLoggedIn, function(req, res) {
-    res.render('new.ejs');
+    res.render('camp/new.ejs');
 });
 
 
@@ -64,11 +64,34 @@ router.get('/:id', function(req, res) {
         if(err){
             console.log(err);
         }else{
-            res.render('show', {camp: foundCamp});
+            res.render('camp/show', {camp: foundCamp});
         }
     });
 });
 
+
+
+
+router.get('/:id/edit', function(req, res) {
+    Camp.findById(req.params.id, function(err, foundCamp){
+        if(err){
+            console.log(err);
+        }else{
+            res.render('camp/edit', {camp: foundCamp});
+        }
+    });
+});
+
+
+router.put('/:id', function(req, res){
+    Camp.findByIdAndUpdate(req.params.id, req.body.camp, function(err, updateCamp){
+        if(err){
+            console.log(err);
+        }else{
+            res.redirect('/camp/' + req.params.id);
+        }
+    });
+});
 
 
 
