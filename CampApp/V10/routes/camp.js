@@ -72,18 +72,20 @@ router.get('/:id', function(req, res) {
 
 
 
-router.get('/:id/edit', isLoggedIn, function(req, res) {
-    Camp.findById(req.params.id, function(err, foundCamp){
-        if(err){
-            console.log(err);
-        }else{
-            res.render('camp/edit', {camp: foundCamp});
-        }
-    });
-});
+router.get('/:id/edit', ownerShip, function(req, res) {
+ 
+          Camp.findById(req.params.id, function(err, foundCamp){
+             res.render('camp/edit', {camp: foundCamp});
+         
+            });
+        });
+        
+        
+
+    
 
 
-router.put('/:id', function(req, res){
+router.put('/:id',  function(req, res){
     Camp.findByIdAndUpdate(req.params.id, req.body.camp, function(err, updateCamp){
         if(err){
             console.log(err);
@@ -97,7 +99,7 @@ router.put('/:id', function(req, res){
 
 
 
-router.delete('/:id', isLoggedIn, function(req, res){
+router.delete('/:id', isLoggedIn, ownerShip, function(req, res){
     Camp.findByIdAndRemove(req.params.id, function(err, removeCamp){
         if(err){
             res.redirect('/camp/' + req.params.id);
@@ -119,9 +121,43 @@ function isLoggedIn(req, res, next){
 
 
 
-function ownerShip(){
-    if(req.isAuthenticated()){
+// function ownerShip(req, res, next){
+//       if(req.isAuthenticated()){
         
+//           Camp.findById(req.params.id, function(err, foundCamp){
+//                 if(err){
+//                     res.redirect('back')
+//                 }else{
+//                     if(foundCamp.author.id.equals(req.user._id)){
+//                         next();
+//                     }else{
+//                         res.redirect('back');
+//                     }
+                    
+//                 }
+//         });
+        
+//     }else{
+//         res.redirect('back');
+//     }
+// }
+
+
+function ownerShip(req, res, next){
+    if(req.isAuthenticated){
+        Camp.findById(req.params.id, function(err, foundCamp) {
+            if(err){
+                res.redirect('back');
+            }else{
+                if(foundCamp.author.id.equals(req.user._id)){
+                    next();
+                }else{
+                    res.redirect('back');
+                }
+            }
+        })
+    }else{
+        res.redirect('back');
     }
 }
 
