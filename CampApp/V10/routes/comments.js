@@ -44,6 +44,40 @@ router.post('/',  function(req, res){
 
 
 
+router.get('/:comment_id/edit', function(req, res){
+    Comments.findById(req.params.comment_id, function(err, foundComment){
+        if(err){
+            res.redirect('back');
+        }else{
+                res.render('comments/edit', {camp_id: req.params.id, comment: foundComment})
+        }
+    })
+})
+
+
+router.put('/:comment_id', function(req, res){
+    Comments.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, updateComment){
+        if(err){
+            res.redirect('back');
+        }else{
+            res.redirect('/camp/' + req.params.id );
+        }
+    });
+});
+
+
+
+router.delete('/:comment_id', function(req, res){
+    Comments.findByIdAndRemove(req.params.comment_id, function(err, removeComment){
+        if(err){
+            res.redirect('back');
+        }else{
+            res.redirect('/camp/' + req.params.id)
+        }
+    });
+});
+
+
 // isLoggedIn
 function isLoggedIn(req, res, next){
    if(req.isAuthenticated()){
