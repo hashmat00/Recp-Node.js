@@ -1,6 +1,8 @@
 var express = require("express");
 var router = express.Router();
 
+var middleware = require("../middleware");
+
 
 var Camp = require("../models/camp")
 
@@ -52,7 +54,7 @@ router.post('/', function(req, res){
 
 
 
-router.get('/new', isLoggedIn, function(req, res) {
+router.get('/new', middleware.isLoggedIn, function(req, res) {
     res.render('camp/new.ejs');
 });
 
@@ -72,7 +74,7 @@ router.get('/:id', function(req, res) {
 
 
 
-router.get('/:id/edit', ownerShip, function(req, res) {
+router.get('/:id/edit', middleware.campOwnerShip, function(req, res) {
  
           Camp.findById(req.params.id, function(err, foundCamp){
              res.render('camp/edit', {camp: foundCamp});
@@ -99,7 +101,7 @@ router.put('/:id',  function(req, res){
 
 
 
-router.delete('/:id', isLoggedIn, ownerShip, function(req, res){
+router.delete('/:id', middleware.isLoggedIn, middleware.campOwnerShip, function(req, res){
     Camp.findByIdAndRemove(req.params.id, function(err, removeCamp){
         if(err){
             res.redirect('/camp/' + req.params.id);
@@ -111,13 +113,7 @@ router.delete('/:id', isLoggedIn, ownerShip, function(req, res){
 
 
 // isLoggedIn
-function isLoggedIn(req, res, next){
-   if(req.isAuthenticated()){
-       return next();
-   }
-   
-   res.redirect('/login');
-}
+
 
 
 
@@ -143,23 +139,7 @@ function isLoggedIn(req, res, next){
 // }
 
 
-function ownerShip(req, res, next){
-    if(req.isAuthenticated){
-        Camp.findById(req.params.id, function(err, foundCamp) {
-            if(err){
-                res.redirect('back');
-            }else{
-                if(foundCamp.author.id.equals(req.user._id)){
-                    next();
-                }else{
-                    res.redirect('back');
-                }
-            }
-        })
-    }else{
-        res.redirect('back');
-    }
-}
+
 
 
 module.exports = router;
