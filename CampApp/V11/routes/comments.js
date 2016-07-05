@@ -30,6 +30,7 @@ router.post('/',  function(req, res){
         }else{
             Comments.create(req.body.comment, function(err, comment){
                 if(err){
+                    req.flash('error', 'Something went wrong');
                     console.log(err);
                 }else{
                     comment.author.id = req.user._id;
@@ -37,6 +38,7 @@ router.post('/',  function(req, res){
                     comment.save();
                     camp.comments.push(comment);
                     camp.save();
+                     req.flash('success', 'You have successfully created the comment');
                     res.redirect('/camp/' + camp._id)
                 }
             });
@@ -62,6 +64,7 @@ router.put('/:comment_id', middleware.commentOwnerShip, function(req, res){
         if(err){
             res.redirect('back');
         }else{
+            req.flash('success', 'You have successfully edited the comment')
             res.redirect('/camp/' + req.params.id );
         }
     });
@@ -74,6 +77,7 @@ router.delete('/:comment_id', middleware.commentOwnerShip, function(req, res){
         if(err){
             res.redirect('back');
         }else{
+            req.flash('error', 'You have successfully deleted the comment')
             res.redirect('/camp/' + req.params.id)
         }
     });

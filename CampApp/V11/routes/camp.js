@@ -92,6 +92,7 @@ router.put('/:id',  function(req, res){
         if(err){
             console.log(err);
         }else{
+             req.flash('success', 'You have successfully updated the camp')
             res.redirect('/camp/' + req.params.id);
         }
     });
@@ -106,6 +107,7 @@ router.delete('/:id', middleware.isLoggedIn, middleware.campOwnerShip, function(
         if(err){
             res.redirect('/camp/' + req.params.id);
         }else{
+             req.flash('error', 'You have successfully deleted the camp')
             res.redirect('/camp');
         }
     });

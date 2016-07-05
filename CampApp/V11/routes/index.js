@@ -21,10 +21,11 @@ router.get('/register', function(req, res) {
 router.post('/register', function(req, res){
     User.register(new User({username: req.body.username}), req.body.password, function(err, user){
         if(err){
-            console.log(err);
+            req.flash('error', err.message);
             return res.render('register');
         }
         passport.authenticate('local')(req, res, function(){
+            req.flash('error', 'Welcome to Camp ' + user.username);
             res.redirect('/camp');
         });
     });
@@ -42,7 +43,9 @@ router.get('/login', function(req, res) {
 
 router.post('/login', passport.authenticate('local', {
     successRedirect: '/camp',
-    failureRedirect: '/login'
+    failureRedirect: '/login',
+    failureFlash: "Invalid username or password",
+    successFlash: "Welcome to Camp Tours!"
 }), function(req, res){
     
 });
